@@ -1,0 +1,50 @@
+
+body {
+  background-color: #1b7268;
+}
+
+.jumbotron{
+  background-color: #1fb56a;
+}
+
+.centered {
+    padding-top: 200px;
+    text-align: center;
+}
+
+.secret-text {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #232121;
+  border: solid 0.5px #000;
+  border-radius: 10px;
+  box-shadow: 10px 10px 15px #000000bb;
+  
+}
+
+.sbmt{
+  box-shadow: 10px 10px 15px #000000bb;
+}
+.txtdpth{
+  text-shadow: 10px 10px 15px #000000bb;
+}
+ 
+.bracket{
+  display: flex;
+  flex-direction: column-reverse;
+  
+}
+/*
+.se{
+  flex-wrap: wrap;
+  padding: 20px;
+  width: 350px;
+  height: 400px;
+  gap: 10px;
+  justify-self: center;
+  align-items: center;
+  border: solid 1px #110;
+  border-radius: 15px;
+  
+} */
