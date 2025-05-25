@@ -1,40 +1,97 @@
 
 body {
-  background-color: #1b7268;
+  background-color: #0ce6b6;
+  margin:40px;
 }
 
 .jumbotron{
-  background-color: #1fb56a;
+  background-color: #ADD8E6;
+  height: 100vh;
 }
-
+ .discoverer{
+  display: flex;
+  justify-content: space-between;
+ }
+.discover_sc{
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap:50px;
+  padding: 5px;
+  border: 2px solid rgba(0, 0, 0, 0.177);
+  border-radius: 10px;
+}
+.discoverSecret{
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  gap:20px
+}
+.sub_secret{
+  display: flex;
+  flex-direction: column;
+  gap:10px
+}
 .centered {
-    padding-top: 200px;
+    padding-top: 20px;
     text-align: center;
 }
 
 .secret-text {
   text-align: center;
-  font-size: 2rem;
-  color: #fff;
-  background-color: #232121;
-  border: solid 0.5px #000;
-  border-radius: 10px;
-  box-shadow: 10px 10px 15px #000000bb;
+  font-size: 1rem;
+  color: #0ce6b6;
+  
   
 }
 
 .sbmt{
-  box-shadow: 10px 10px 15px #000000bb;
+  box-shadow: 5px 5px 5px #000000bb;
 }
 .txtdpth{
-  text-shadow: 10px 10px 15px #000000bb;
+  text-shadow: 5px 5px 25px #000000bb;
+  font-size: 30px;
 }
  
-.bracket{
-  display: flex;
-  flex-direction: column-reverse;
+.bracket {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 2rem;
   
 }
+
+.secret-card {
+  background-color: #0f0f0f;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  max-height: 300px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  text-align: center;
+  overflow-y: auto;
+}
+.sec_icon{
+  height: 20px;
+  margin: 5px;
+}
+.sec-text{
+  display: flex;
+  justify-content: center;
+  height: 250px; /* Adjust this based on design */
+    /* Enables vertical scrolling */
+  padding: 10px;
+  
+}
+
+
+
+
+
 /*
 .se{
   flex-wrap: wrap;

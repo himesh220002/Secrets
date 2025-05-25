@@ -1,205 +1,176 @@
 //jshint esversion:6
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const ejs = require('ejs');
-const mongoose = require('mongoose');
-
-const session = require('express-session');
-const passport = require('passport');
-const passportLocalMongoose = require('passport-local-mongoose');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const FacebookStrategy = require('passport-facebook').Strategy;
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const ejs = require("ejs");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
 
-app.use(express.static('public'));
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({extended:true}));
+// Middleware setup
+app.use(express.static("public"));
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+mongoose.set('strictQuery', true);
 
+// Session config
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport config
 app.use(passport.initialize());
-app.use(passport.session());    // setup session
+app.use(passport.session());
 
-mongoose.connect("mongodb://127.0.0.1:27017/userDB");
+// Connect MongoDB
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ Connected to MongoDB Atlas!"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
-
+// SCHEMA & MODEL
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   googleId: String,
-  secret: String
+  secret: {
+    type: [String],
+    default: [],
+  },
 });
 
-userSchema.plugin(passportLocalMongoose);  //use to hash and salt our password
+userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
-const User = new mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
-passport.use(User.createStrategy());   // local login strategy
+// Passport Local
+passport.use(User.createStrategy());
 
-// used to serialize the user for the session  , any kind of authentication
-passport.serializeUser(function(user, done) {
-  done(null, user.id); 
- // where is this user.id going? Are we supposed to access this anywhere?
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
 });
-
-// used to deserialize the user
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-      done(err, user);
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
   });
 });
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/auth/google/secrets",
-},
-function(accessToken, refreshToken, profile, cb) {
-  // console.log(profile);
-  User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    return cb(err, user);
-  });
-  }
-));
+// Google OAuth Strategy
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/google/secrets",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
 
-// passport.use(new FacebookStrategy({
-//   clientID: process.env.FACEBOOK_APP_ID,
-//   clientSecret: process.env.FACEBOOK_APP_SECRET,
-//   callbackURL: "http://localhost:3000/auth/facebook/secrets"
-// },
-// function(accessToken, refreshToken, profile, cb) {
-//   User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-//     return cb(err, user);
-//   });
-// }
-// ));
-
-
-app.get("/", function(req, res){
+// ROUTES
+app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.get("/auth/google",
-  passport.authenticate("google", { scope: ["profile"] }));
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
 
-  app.get("/auth/google/secrets", 
-  passport.authenticate("google", { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect secrets.
+app.get(
+  "/auth/google/secrets",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
     res.redirect("/secrets");
-  });  
+  }
+);
 
-// app.get('/auth/facebook',
-//   passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages'] }));  
+app.get("/login", (req, res) => res.render("login"));
+app.get("/register", (req, res) => res.render("register"));
 
-
-//   app.get("/auth/facebook/secrets", 
-//   passport.authenticate("facebook", { failureRedirect: '/login' }),
-//   function(req, res) {
-//     // Successful authentication, redirect secrets.
-//     res.redirect("/secrets");
-//   });
-
-app.get("/login", function(req, res){
-  res.render("login");
-});
-
-app.get("/register", function(req, res){
-  res.render("register");
-});
-
-app.get("/secrets", function(req, res){
-  User.find({"secret": {$ne: null}}, function(err, foundUsers){
-    if(err){
-      console.log(err);
-    }else{
-      if(foundUsers){
-        res.render("secrets", {usersWithSecrets: foundUsers});
-      }
-    }
+app.get("/secrets", (req, res) => {
+  User.find({ secret: { $exists: true, $not: { $size: 0 } } }, (err, foundUsers) => {
+    if (err) return console.log(err);
+    res.render("secrets", { usersWithSecrets: foundUsers });
   });
 });
 
-app.get("/submit" , function(req, res){
-  if(req.isAuthenticated()) {
+app.get("/submit", (req, res) => {
+  if (req.isAuthenticated()) {
     res.render("submit");
   } else {
     res.redirect("/login");
   }
 });
 
-app.post("/submit", function(req, res){
+app.post("/submit", async (req, res) => {
   const submittedSecret = req.body.secret;
 
-  User.findById(req.user.id, function(err, foundUser){
-    if(err) {
-      console.log(err);
-    }else{
-      if(foundUser){
-        foundUser.secret = submittedSecret;
-        foundUser.save(function(){
-          res.redirect("/secrets");
-        });
-      }
-    }
-  });
+  if (!submittedSecret || submittedSecret.trim() === "") {
+    return res.redirect("/submit"); // Optional fallback, but handled in frontend
+  }
 
+  try {
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { $push: { secret: submittedSecret } },
+      { new: true }
+    );
+    res.redirect("/secrets"); // ✅ Redirect to secrets list after success
+  } catch (err) {
+    console.error(err);
+    res.redirect("/submit");
+  }
 });
 
-app.get("/logout", function(req, res){
-  req.logout(function(err){
-    if(err) {
-      console.log(err);
-    }
+
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) console.error(err);
+    res.redirect("/");
   });
-  res.redirect("/");
 });
 
-app.post("/register", function(req, res){
-
-  User.register({username: req.body.username},req.body.password, function(err, user){
-    if(err){
+app.post("/register", (req, res) => {
+  User.register({ username: req.body.username }, req.body.password, (err, user) => {
+    if (err) {
       console.log(err);
-      res.redirect("/register");
-    }else{
-      passport.authenticate("local")(req, res, function(){
-        res.redirect("/secrets");
-      });
+      return res.redirect("/register");
     }
+    passport.authenticate("local")(req, res, () => res.redirect("/secrets"));
   });
-    
 });
 
-app.post("/login", function(req, res){
-
+app.post("/login", (req, res) => {
   const user = new User({
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
   });
 
-  req.login(user, function(err){
-    if(err){
+  req.login(user, (err) => {
+    if (err) {
       console.log(err);
-    }else{
-      passport.authenticate("local")(req, res, function(){
-        res.redirect("/secrets");
-      });
+      return res.redirect("/login");
     }
+    passport.authenticate("local")(req, res, () => res.redirect("/secrets"));
   });
-
 });
 
-
-
-
-app.listen(3000, function(){
-  console.log("server is started on port 3000");
-});
+// SERVER
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server started on port ${PORT}`));

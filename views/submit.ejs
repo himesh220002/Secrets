@@ -1,20 +1,76 @@
 <%- include('partials/header') %>
 
-<div class="container">
-  <div class="jumbotron centered">
-    <i class="fas fa-key fa-6x"></i>
-    <h1 class="display-3 txtdpth">Secrets</h1>
-    <p class="secret-text">Don't keep your secrets, share them anonymously!</p>
+  <div class="container">
+    <div class="jumbotron centered">
+      <i class="fas fa-key fa-6x"></i>
+      <h1 class=" txtdpth">Secrets</h1>
+      <p class="">Don't keep your secrets, share them anonymously!</p>
 
-    <form action="/submit" method="POST">
+      <form id="secretForm" action="/submit" method="POST">
+        <div class="form-group">
+          <input type="text" id="secretInput" class="form-control text-center" name="secret"
+            placeholder="What's your secret?">
+        </div>
+        <button type="submit" class="btn btn-success sbmt">Submit</button>
+      </form>
 
-      <div class="form-group">
-        <input type="text" class="form-control text-center" name="secret" placeholder="What's your secret?">
-      </div>
-      <button type="submit " class="btn btn-success sbmt">Submit</button>
-    </form>
+      <script>
+        document.getElementById('secretForm').addEventListener('submit', function (e) {
+          const input = document.getElementById('secretInput').value.trim();
+          if (!input) {
+            e.preventDefault(); // ❌ Stop form submission
+            alert("Enter secret");
+          }
+        });
+      </script>
 
 
+
+    </div>
   </div>
-</div>
-<%- include('partials/footer') %>
+
+  <script>
+    const placeholders = [
+      "What's on your mind?",
+      "Let's talk!",
+      "Anything bothering you?",
+      "Share your thoughts anonymously!",
+      "Your secret is safe here!",
+      "Unspoken thoughts? Share them here!",
+      "Got something on your mind?",
+      "A little secret never hurt anyone!",
+      "What’s that one thing you wish you could say?",
+      "Let it out, no one will judge!",
+      "Ever had a thought too deep to say out loud?",
+      "You can be completely honest here!",
+      "Write it down—no pressure!",
+      "This is a safe space for your thoughts!",
+      "A secret waiting to be told?",
+      "What's the untold story in your heart?",
+      "Anonymously share what’s weighing you down!",
+      "A quiet confession, just for you!",
+      "No names. Just words. What's yours?",
+      "Ever had a thought you'd never tell anyone?",
+      "Free your mind—type it here!",
+      "Got something you need to get off your chest?",
+      "A passing thought or a deep truth?",
+      "Speak from the heart!",
+      "Let your words flow without hesitation!"
+    ];
+
+    const secretInput = document.getElementById('secretInput');
+
+    function changePlaceholder() {
+      secretInput.classList.add("sliding"); // Add animation class
+
+      setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * placeholders.length); // Get random placeholder
+        secretInput.placeholder = placeholders[randomIndex]; // Change placeholder
+
+      }, 500); // Matches animation duration
+    }
+
+    setInterval(changePlaceholder, 5000); // Change every 5 seconds
+
+  </script>
+  <%- include('partials/footer') %>

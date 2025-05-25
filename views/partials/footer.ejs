@@ -1,4 +1,47 @@
 
+<script>
+ document.querySelectorAll('.secret-card').forEach(card => {
+  const text = card.getAttribute('data-secret').toLowerCase();
+  const icon = card.querySelector('.sec_icon i'); // Select the icon
+
+  let iconColor = 'white'; // Default color
+
+  // Count occurrences for each emotion category
+const positiveCount = (text.match(/happy|joy|love|excited|delighted|pleased|cheerful|content|grateful|thrilled|ecstatic|hopeful|elated|overjoyed|radiant|smiling|optimistic|blissful/g) || []).length;
+const melancholyCount = (text.match(/sad|alone|heartbroken|hopeless|miserable|depressed|downcast|sorrowful|blue|tearful|gloomy|weary|troubled|helpless|melancholic|mourning|grieving|lonely/g) || []).length;
+const nervousnessCount = (text.match(/fear|anxious|worried|uncertain|tense|stressed|panicked|uneasy|shaky|jittery|hesitant|nervous|apprehensive|doubtful|restless|overwhelmed|distressed/g) || []).length;
+const energyCount = (text.match(/power|determined|strong|motivated|invigorated|charged|focused|confident|bold|fearless|energetic|lively|driven|active|resilient|unstoppable|passionate|enthusiastic|fierce/g) || []).length;
+const flaggedGrayWords= (text.match(/abuse|threat|assault|fight|fraud|alcohol|gambling|illegal|stalking|execution|fake|cheating|curse|offensive|disgusting|cruel/g) || []).length;
+const flaggedWords = (text.match(/violence|kill|murder|bomb|terror|explosion|attack|weapon|gun|knife|blood|hate|racist|discrimination|harassment|rape|molest|porn|nudity|explicit|adult|18\+|drug|cocaine|heroin|suicide|self-harm|hurt|burn|poison|dead|death|corpse|hostage|kidnap|danger|warning|toxic|betrayal|blackmail|scam|hack|virus|fake-news|conspiracy|trafficking|extortion|bribe|money-laundering|prostitution|sex|sexual|profane|swear|slur|hate-speech|bullying|doxxing/g) || []).length;
+
+
+let dominantEmotion = { count: 0, color: iconColor };
+
+  // Determine the dominant category
+  const emotionCounts = [
+    { category: "positive", count: positiveCount, color: "#ff9999" },  // Light red for positive emotions
+    { category: "melancholy", count: melancholyCount, color: "#6c757d" },  // Grey for sadness
+    { category: "nervousness", count: nervousnessCount, color: "#5DADE2" },  // Light Blue for nervousness
+    { category: "energy", count: energyCount, color: "#28a745" },  // Green for motivation & energy
+    { category: "flaggedGray",count: flaggedGrayWords, color: "#ffc107" },  // Yellow for Danger
+    { category: "danger",count: flaggedWords, color: "#ff0000" }  // Yellow for Danger
+  ];
+
+  if (flaggedWords > 0) {
+    dominantEmotion = { category: "danger", count: flaggedWords, color: "#ff0000" };
+  } else {
+    // Otherwise, find the emotion with the highest count
+    dominantEmotion = emotionCounts.reduce((prev, current) => {
+      return current.count > prev.count ? current : prev;
+    }, dominantEmotion);
+  }
+
+  icon.style.color = dominantEmotion.color; // Apply the color change
+});
+
+
+
+</script>
 
 </body>
 </html>
