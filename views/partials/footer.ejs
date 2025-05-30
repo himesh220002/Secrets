@@ -43,5 +43,31 @@ let dominantEmotion = { count: 0, color: iconColor };
 
 </script>
 
+<script>
+  function showConfirm(id) {
+    // Hide all open confirms first
+    document.querySelectorAll('[id^="confirm-"]').forEach(el => el.classList.add('hidden'));
+    
+    const confirmBox = document.getElementById(`confirm-${id}`);
+    if (confirmBox) confirmBox.classList.remove('hidden');
+  }
+
+  function hideConfirm(id) {
+    const confirmBox = document.getElementById(`confirm-${id}`);
+    if (confirmBox) confirmBox.classList.add('hidden');
+  }
+
+  // Optional: Hide if clicked outside
+  document.addEventListener('click', (e) => {
+    const boxes = document.querySelectorAll('[id^="confirm-"]');
+    boxes.forEach(box => {
+      if (!box.contains(e.target) && !box.previousElementSibling.contains(e.target)) {
+        box.classList.add('hidden');
+      }
+    });
+  });
+</script>
+
+
 </body>
 </html>
