@@ -10,27 +10,30 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const crypto = require("crypto");
-
+const path = require("path");
 
 const app = express();
 
-// Middleware for static files and view engine
 
-app.set("views", path.join(__dirname, "views"));
 
 
 // Middleware setup
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("public"));
+
+// Middleware for static files and view engine
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-app.get("/favicon.ico", (req, res) => res.status(204));
+// app.get("/favicon.ico", (req, res) => res.status(204));
 
 
-app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net;");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net;");
+//   next();
+// });
 
 
 mongoose.set('strictQuery', true);
