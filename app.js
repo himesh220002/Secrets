@@ -11,6 +11,8 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const crypto = require("crypto");
 const path = require("path");
+const MongoStore = require("connect-mongo");
+
 
 const app = express();
 
@@ -38,13 +40,24 @@ app.set("views", path.join(__dirname, "views"));
 
 mongoose.set('strictQuery', true);
 
+app.set('trust proxy', 1); 
 // Session config
 app.use(
   session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: "sessions",
+    }),
+    cookie: {
+      httpOnly: true,
+      sameSite: "none", // important for cookies in Vercel
+      secure: process.env.NODE_ENV === "production", // only true in prod
+    },
   })
+  
 );
 
 // Passport config
@@ -365,20 +378,26 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-  });
-
-  req.login(user, (err) => {
+app.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
-      console.log(err);
+      console.error("❌ Auth error:", err);
+      return res.status(500).send("Internal server error.");
+    }
+    if (!user) {
       return res.redirect("/login");
     }
-    passport.authenticate("local")(req, res, () => res.redirect("/secrets"));
-  });
+
+    req.login(user, (err) => {
+      if (err) {
+        console.error("❌ Login error:", err);
+        return res.status(500).send("Login failed.");
+      }
+      return res.redirect("/secrets");
+    });
+  })(req, res, next);
 });
+
 
 // SERVER
 // Only run server locally (not in serverless/Vercel mode)
