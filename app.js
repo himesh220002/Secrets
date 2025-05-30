@@ -14,10 +14,21 @@ const crypto = require("crypto");
 
 const app = express();
 
+// Middleware for static files and view engine
+
+app.set("views", path.join(__dirname, "views"));
+
+
 // Middleware setup
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net;");
+  next();
+});
+
 
 mongoose.set('strictQuery', true);
 
