@@ -1,16 +1,103 @@
 <%- include('partials/header') %>
 
 
-<div class=" centered">
-  <div class="">
-    <i class="fas fa-user-secret fa-6x"></i>
-    <h1 class=" txtdpth">Secrets</h1>
-    <p style="font-size:x-large;">Don't keep your secrets, share them anonymously!</p>
-    <hr>
-    <a class="btn btn-light btn-lg sbmt" href="/register" role="button">Register</a>
-    <a class="btn btn-dark btn-lg sbmt" href="/login" role="button">Login</a>
 
+<div class="container mx-auto text-center px-4 py-20 sm:py-20">
+  <!-- Secret Icon -->
+  <i class="fas fa-user-secret text-gray-500 text-7xl sm:text-8xl"></i>
+
+  <!-- Heading -->
+  <h1 class="text-5xl sm:text-8xl font-bold text-gray-800 mt-4">Secrets</h1>
+
+  <!-- Subtext -->
+  <p class="text-base sm:text-3xl text-gray-500 mt-2 px-2 sm:px-0">
+    Don't keep your secrets, share them anonymously!
+  </p>
+
+  <hr class="my-8 border-gray-300">
+
+  <!-- Responsive Buttons -->
+<div class="flex flex-col  justify-center items-center gap-5 mx-40 mt-6">
+  
+  <!-- Register -->
+  <div class="w-50 flex justify-center">
+    <a
+      href="/register"
+      role="button"
+      class="w-full sm:w-50 bg-gray-200 text-gray-700 py-4 px-8 rounded-lg text-xl text-center no-underline hover:no-underline cursor-pointer hover:bg-gray-100 active:bg-gray-400 transition"
+    >
+      <span class="font-semibold">Register</span>
+    </a>
   </div>
+
+  <!-- Login -->
+  <div class="w-50 flex justify-center">
+    <a
+      href="/login"
+      role="button"
+      class="w-full sm:w-full bg-gray-800 text-white py-4 px-8 rounded-lg text-xl text-center no-underline hover:no-underline cursor-pointer hover:bg-gray-900 active:bg-gray-700 transition"
+    >
+      <span class="font-semibold">Login</span>
+    </a>
+  </div>
+  
+</div>
+
+<!-- Purpose / Real Use Section -->
+<div class="mt-16 bg-gradient-to-br from-white via-gray-50 to-gray-100 p-8 sm:p-10 rounded-3xl shadow-2xl border border-gray-200 max-w-4xl mx-auto">
+  <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-6 text-center">Why Share Your Secret?</h2>
+
+  <!-- Positive Highlights -->
+  <div class="space-y-2 text-center mb-8">
+    <p class="text-lg sm:text-xl text-green-600 font-semibold">
+      🌱 Healing begins with honesty. You are not alone.
+    </p>
+    <p class="text-lg sm:text-xl text-green-600 font-semibold">
+      💬 A supportive anonymous space to be heard, feel lighter, and move forward.
+    </p>
+  </div>
+
+  <!-- List Points -->
+  <ul class="list-disc list-inside text-left text-gray-700 text-base sm:text-lg space-y-4 leading-relaxed">
+    <li>
+      <span class="font-semibold text-gray-900">Start healing through expression:</span>
+      Putting feelings into words brings clarity and peace.
+    </li>
+    <li>
+      <span class="font-semibold text-gray-900">Connect through shared experiences:</span>
+      You're not the only one — others understand and silently support you.
+    </li>
+    <li>
+      <span class="font-semibold text-gray-900">Free yourself from mental burden:</span>
+      Sharing anonymously relieves stress without judgment.
+    </li>
+    <li>
+      <span class="font-semibold text-gray-900">Express the unspoken:</span>
+      Doubts, guilt, fears — this is your safe space to let go.
+    </li>
+    <li>
+      <span class="font-semibold text-gray-900">Feel seen without being exposed:</span>
+      Silent validation from others can be deeply comforting.
+    </li>
+    <li>
+      <span class="font-semibold text-gray-900">Talk about difficult topics:</span>
+      Identity, pressure, anxiety, or taboo issues — speak without fear.
+    </li>
+    <li>
+      <span class="font-semibold text-gray-900">No face. No shame. Just truth:</span>
+      Every strong person carries a story. Share yours.
+    </li>
+  </ul>
+
+  <!-- Closing Line -->
+  <p class="text-center mt-8 text-gray-600 italic text-md sm:text-lg">
+    You don’t have to be loud to be heard — just be real with yourself.
+  </p>
+</div>
+
+
+
+
 </div>
 
 <%- include('partials/footer') %>

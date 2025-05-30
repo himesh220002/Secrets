@@ -1,0 +1,118 @@
+<%- include('partials/header') %>
+    <%- include('nav') %>
+
+        <div class="min-h-screen bg-gradient-to-b from-green-300 to-gray-500 py-10 px-4">
+            <div class="mx-auto space-y-6">
+                <h1 class="text-3xl font-bold text-center text-gray-800">My Secrets</h1>
+
+                <!-- Secrets Grid -->
+                <div
+                    class="grid grid-cols-1  md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4  gap-4 p-4 border border-gray-300 bg-gradient-to-b from-gray-900 to-red-900 rounded-md shadow-inner">
+                    <% let secrets=Array.isArray(mySecrets) ? mySecrets.slice().reverse() : [mySecrets]; %>
+                        <% secrets.forEach(function(secret) { %>
+                            <% if (secret && secret.text) { %>
+                                <div class="secret-card max-h-[400px] rounded-xl bg-gradient-to-b from-gray-700 to-green-800 shadow-md border p-4 flex flex-col justify-between "
+                                    data-secret="<%= secret.text ? secret.text : secret %>">
+
+
+                                    <div>
+                                        <!-- Icon, Date -->
+                                        <div class="flex justify-between">
+                                            <div class="sec_icon">
+                                                <i class="ghost fas fa-ghost fa-xl !text-xl "></i>
+                                            </div>
+
+                                            <div>
+                                                <div class="flex items-start justify-center px-2 ">
+
+                                                    <% const safeLikeMap=typeof likeMap !=='undefined' ? likeMap : {};
+                                                        %>
+
+                                                        <!-- Like Button -->
+                                                        <form action="/secret/<%= secret._id %>/like" method="POST">
+                                                            <input type="hidden" name="redirectTo" value="/mypost">
+                                                            <button type="submit">
+                                                                <div class="flex border-r border-gray-500">
+                                                                    <div
+                                                                        class="px-2 py-1 bg-black rounded-l-2xl ">
+                                                                        <i class="fas fa-thumbs-up  <%= (safeLikeMap[secret._id]?.likes?.includes(currentUserId)) ? 'text-blue-400' : 'text-white' %>"></i>
+                                                                    </div>
+
+                                                                    <div
+                                                                        class=" px-2 py-1 bg-black text-white  text-sm">
+                                                                        <%= safeLikeMap[secret._id]?.likes?.length || 0
+                                                                            %>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                        </form>
+
+                                                        <!-- Dislike Button -->
+                                                        <form action="/secret/<%= secret._id %>/dislike" method="POST">
+                                                            <input type="hidden" name="redirectTo" value="/mypost">
+                                                            <button type="submit">
+                                                                <div class="flex ">
+                                                                    <div class=" px-2 py-1 bg-black ">
+                                                                        <i  class="fas fa-thumbs-down <%= (safeLikeMap[secret._id]?.dislikes?.includes(currentUserId)) ? 'text-red-400' : 'text-white' %>"></i>
+
+                                                                    </div>
+
+                                                                    <div
+                                                                        class=" px-2 py-1 bg-black text-white rounded-r-2xl">
+                                                                        <%= safeLikeMap[secret._id]?.dislikes?.length ||
+                                                                            0 %>
+                                                                    </div>
+                                                                </div>
+
+                                                            </button>
+                                                        </form>
+
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <p class="text-sm text-wrap text-center text-gray-200 mb-4">
+                                                    Posted:
+                                                    <% if (secret.createdAt) { %>
+                                                        <%= new Date(secret.createdAt).toLocaleString('en-IN', {
+                                                            dateStyle: 'medium' , timeStyle: 'short' }) %>
+                                                            <% } else { %>
+                                                                Unknown Date
+                                                                <% } %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Scrollable Secret Card Content -->
+                                        <div style="max-height: 350px;" class=" custom-scroll overflow-y-auto">
+                                            <!-- Secret Text -->
+                                            <p class="text-gray-200  text-2xl sm:text-2xl lg:text-lg mb-4 ">
+                                                <%= secret.text %>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <!-- Action Buttons -->
+                                    <div class="flex items-center justify-between text-sm mt-2">
+                                        <form action="/edit/<%= secret._id %>" method="GET">
+                                            <button
+                                                class="text-black py-2 px-3 rounded-md bg-blue-50  hover:bg-blue-400">Edit</button>
+                                        </form>
+
+                                        <form action="/delete/<%= secret._id %>" method="POST"
+                                            onsubmit="return confirm('Delete this post?');">
+                                            <button
+                                                class="text-white py-2 px-3 rounded-md bg-red-600  hover:bg-red-800">Delete</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            <% } %>
+                        <% }); %>
+                </div>
+            </div>
+        </div>
+
+        <%- include('partials/footer') %>

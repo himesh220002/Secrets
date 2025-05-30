@@ -8,6 +8,13 @@ body {
   background-color: #ADD8E6;
   height: 100vh;
 }
+/* home */
+.sub-text{
+  font-size: 1.25rem;
+  color: #6c757d;
+
+}
+
  .discoverer{
   display: flex;
   justify-content: space-between;
@@ -48,10 +55,7 @@ body {
 .sbmt{
   box-shadow: 5px 5px 5px #000000bb;
 }
-.txtdpth{
-  text-shadow: 5px 5px 25px #000000bb;
-  font-size: 30px;
-}
+
  
 .bracket {
   display: grid;
@@ -61,47 +65,63 @@ body {
   
 }
 
-.secret-card {
-  background-color: #0f0f0f;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  max-height: 300px;
-  padding: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  text-align: center;
-  overflow-y: auto;
+ .secret-card {
+    /* background-color: #0c3d3c; */
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    border-radius:  0.5rem 0.5rem 0 0;
+    text-align: center;
+    color: #111827;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .ghost {
+    color: #4B5563; /* gray-600 */
+    font-size: 2rem;
+  }
+
+  .secret-text {
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #d5deeb; /* gray-800 */
+  }
+
+  .custom-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
 }
-.sec_icon{
-  height: 20px;
-  margin: 5px;
+
+.custom-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
-.sec-text{
-  display: flex;
-  justify-content: center;
-  height: 250px; /* Adjust this based on design */
-    /* Enables vertical scrolling */
-  padding: 10px;
+
+
+
+/* Ensure the container fits within mobile screens */
+@media (max-width: 600px) {
   
-}
+  /* home */
+  /* .sub-text{
+    font-size: 2rem !important;
+  } */
 
-
-
-
-
-/*
-.se{
-  flex-wrap: wrap;
-  padding: 20px;
-  width: 350px;
-  height: 400px;
-  gap: 10px;
-  justify-self: center;
-  align-items: center;
-  border: solid 1px #110;
-  border-radius: 15px;
+  .display-3 {
+    font-size: 3rem; /* Reduce heading size */
+  }
   
-} */
+  .fa-user-secret {
+    font-size: 4rem; /* Smaller icon */
+  }
+
+  
+
+  .d-flex {
+    flex-direction: column !important; /* Ensure buttons stack vertically */
+  }
+
+  .btn-lg {
+    width: 100%; /* Full-width buttons for mobile */
+  }
+
+}
