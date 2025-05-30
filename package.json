@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-  "dev": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +29,8 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
-    "postcss": "^8.5.3"
+    "postcss": "^8.5.3",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
