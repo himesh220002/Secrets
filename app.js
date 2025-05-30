@@ -52,8 +52,8 @@ app.use(
       collectionName: "sessions",
     }),
     cookie: {
-      httpOnly: true,
-      sameSite: "none", // important for cookies in Vercel
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      sameSite: "lax", // important for cookies in Vercel
       secure: process.env.NODE_ENV === "production", // only true in prod
     },
   })
