@@ -75,8 +75,7 @@
                                                 <p class="text-sm text-wrap text-center text-gray-200 mb-4">
                                                     Posted:
                                                     <% if (secret.createdAt) { %>
-                                                        <%= new Date(secret.createdAt).toLocaleString('en-IN', {
-                                                            dateStyle: 'medium' , timeStyle: 'short' }) %>
+                                                        <%= moment(secret.createdAt).tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss") %>
                                                             <% } else { %>
                                                                 Unknown Date
                                                                 <% } %>
