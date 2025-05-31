@@ -154,6 +154,14 @@ app.get(
   }
 );
 
+app.get("/auth/google/callback", 
+  passport.authenticate("google", { failureRedirect: "/login" }), 
+  function(req, res) {
+    res.redirect("/secrets"); // Redirects after successful login
+  }
+);
+
+
 app.get("/login", (req, res) => res.render("login"));
 app.get("/register", (req, res) => res.render("register"));
 
