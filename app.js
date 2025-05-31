@@ -275,7 +275,7 @@ app.get("/mypost", isAuthenticated, async (req, res) => {
   const mySecrets = (user.secret || []).map((item) => ({
     _id: item._id,
     text: item.text,
-    createdAt: moment(secret.createdAt).tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss")
+    createdAt: moment(secret.createdAt).tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss") || new Date(0)
   }));
 
   res.render("mypost", {
