@@ -174,6 +174,7 @@ app.get("/register", (req, res) => res.render("register"));
 // });
 
 const Like = require("./models/Like");
+const moment = require("moment-timezone");
 
 app.get("/secrets", isAuthenticated, async (req, res) => {
   const users = await User.find({ secret: { $exists: true, $not: { $size: 0 } } }).lean();
@@ -189,7 +190,7 @@ app.get("/secrets", isAuthenticated, async (req, res) => {
         allSecrets.push({
           _id: secret._id,
           text: secret.text,
-          createdAt: secret.createdAt || new Date(0),
+          createdAt: moment(secret.createdAt).tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss") || new Date(0),
           userId: user._id
         });
       }
