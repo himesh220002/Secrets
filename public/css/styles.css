@@ -1,7 +1,7 @@
 
 body {
   background-color: #6fe8b8 !important;
-  margin:40px;
+  margin:40px !important;
 }
 
 .jumbotron{
@@ -68,15 +68,14 @@ body {
  .secret-card {
     /* background-color: #0c3d3c; */
     border: 1px solid #e5e7eb;
-    padding: 1rem;
-    border-radius:  0.5rem 0.5rem 0 0;
+    padding: 2rem;
+    border-radius:  10px 10px 0 0;
     text-align: center;
     color: #111827;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
 
   .ghost {
-    color: #4B5563; /* gray-600 */
     font-size: 2rem;
   }
 
