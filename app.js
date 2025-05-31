@@ -82,7 +82,8 @@ const userSchema = new mongoose.Schema({
     type: [
     {
       text: { type: String, required: true },
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date, 
+default: () => moment().tz("Asia/Kolkata").toDate() },
       _id: { type: mongoose.Schema.Types.ObjectId, auto: true } // auto-generate unique ID
     }
   ],
