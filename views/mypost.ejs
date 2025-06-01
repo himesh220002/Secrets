@@ -7,7 +7,7 @@
 
                 <!-- Secrets Grid -->
                 <div
-                    class="grid grid-cols-1  md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4  gap-4 p-4 border border-gray-300 bg-gradient-to-b from-gray-900 to-red-900 rounded-md shadow-inner">
+                    class="grid grid-cols-1  md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4  gap-4 p-4 border border-gray-600 bg-gradient-to-b from-gray-900 to-red-900 rounded-md shadow-inner">
                     <% let secrets=Array.isArray(mySecrets) ? mySecrets.slice().reverse() : [mySecrets]; %>
                         <% secrets.forEach(function(secret) { %>
                             <% if (secret && secret.text) { %>
