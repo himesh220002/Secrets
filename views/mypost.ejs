@@ -19,7 +19,7 @@
                                         <!-- Icon, Date -->
                                         <div class="flex justify-between">
                                             <div class="sec_icon">
-                                                <i class="ghost fas fa-ghost "></i>
+                                                <i class="ghost fas fa-ghost text-4xl lg:text-2xl"></i>
                                             </div>
 
                                             <div>
@@ -33,13 +33,13 @@
                                                             <input type="hidden" name="redirectTo" value="/mypost">
                                                             <button type="submit">
                                                                 <div class="flex border-r border-gray-500">
-                                                                    <div class="px-2 py-1 bg-black rounded-l-2xl ">
+                                                                    <div class="px-2 py-1 bg-black rounded-l-full ">
                                                                         <i
-                                                                            class="fas fa-thumbs-up  <%= (safeLikeMap[secret._id]?.likes?.includes(currentUserId)) ? 'text-blue-400' : 'text-white' %>"></i>
+                                                                            class="fas fa-thumbs-up text-3xl lg:text-sm <%= (safeLikeMap[secret._id]?.likes?.includes(currentUserId)) ? 'text-blue-400' : 'text-white' %>"></i>
                                                                     </div>
 
                                                                     <div
-                                                                        class=" px-2 py-1 bg-black text-white  text-sm">
+                                                                        class=" px-2 py-1 bg-black text-white  text-2xl lg:text-sm">
                                                                         <%= safeLikeMap[secret._id]?.likes?.length || 0
                                                                             %>
                                                                     </div>
@@ -54,12 +54,12 @@
                                                                 <div class="flex ">
                                                                     <div class=" px-2 py-1 bg-black ">
                                                                         <i
-                                                                            class="fas fa-thumbs-down <%= (safeLikeMap[secret._id]?.dislikes?.includes(currentUserId)) ? 'text-red-400' : 'text-white' %>"></i>
+                                                                            class="fas fa-thumbs-down text-3xl lg:text-sm <%= (safeLikeMap[secret._id]?.dislikes?.includes(currentUserId)) ? 'text-red-400' : 'text-white' %>"></i>
 
                                                                     </div>
 
                                                                     <div
-                                                                        class=" px-2 py-1 bg-black text-white rounded-r-2xl">
+                                                                        class=" px-2 py-1 bg-black text-2xl lg:text-sm text-white rounded-r-full">
                                                                         <%= safeLikeMap[secret._id]?.dislikes?.length ||
                                                                             0 %>
                                                                     </div>
@@ -85,7 +85,7 @@
                                         <!-- Scrollable Secret Card Content -->
                                         <div style="max-height: 350px;" class=" custom-scroll overflow-y-auto">
                                             <!-- Secret Text -->
-                                            <p class="text-gray-200 text-center text-2xl sm:text-2xl lg:text-lg mb-4 ">
+                                            <p class="text-gray-200 text-center text-2xl sm:text-2xl lg:text-lg m-4 ">
                                                 <%= secret.text %>
                                             </p>
                                         </div>
