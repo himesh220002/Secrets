@@ -110,6 +110,7 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
+
 // Google OAuth Strategy
 passport.use(
   new GoogleStrategy(
@@ -117,6 +118,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_CALLBACK_URL 
+      // callbackURL: "http://localhost:3000/auth/google/callback" 
 
     },
     function (accessToken, refreshToken, profile, cb) {
