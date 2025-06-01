@@ -11,7 +11,7 @@
                     <% let secrets=Array.isArray(mySecrets) ? mySecrets.slice().reverse() : [mySecrets]; %>
                         <% secrets.forEach(function(secret) { %>
                             <% if (secret && secret.text) { %>
-                                <div class="secret-card max-h-[400px] rounded-xl bg-gradient-to-b from-gray-700 to-green-800 shadow-md border p-4 flex flex-col justify-between "
+                                <div class="secret-card max-h-[400px] rounded-xl bg-gradient-to-b from-gray-700 to-green-800 shadow-md  p-4 flex flex-col justify-between "
                                     data-secret="<%= secret.text ? secret.text : secret %>">
 
 
